@@ -2,6 +2,7 @@ import React from "react"
 import Header from "../../components/header"
 import Container from '../../components/Container';
 import * as styles from "./index.module.css"
+import { graphql } from 'gatsby';
 
 const User = props => (
   <div className={styles.user}>
@@ -13,12 +14,12 @@ const User = props => (
   </div>
 )
 
-export default function About() {
+export default function About({ data }) {
   return (
     <Container>
       <Header headerText="About Gatsby" />
       <Header headerText="It's pretty cool" />
-      <p>Such wow. Very React.</p>
+      <h1>About {data.site.siteMetadata.title}</h1>
       <User
         username="Maria Randall"
         avatar="https://raw.githubusercontent.com/gatsbyjs/gatsby/master/docs/docs/tutorial/part-two/pexels-daniel-xavier-1102341.jpg"
@@ -32,3 +33,13 @@ export default function About() {
     </Container>
   )
 }
+
+export const query = graphql`
+  query {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+  }
+`
