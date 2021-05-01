@@ -11,6 +11,28 @@ wip
 - ベースになるschemaが入ってる？（枠だけ。使わなくても。。）
 - ↑ Gatsby Node APIs というのがベースになってる？
 - edges配下のnodeとnodesの違いがわからない
-
-
+- gatsbyのgraphqlと素のgraphqlの違いが分からない、、
+### options reference
+https://www.gatsbyjs.com/docs/graphql-reference/
+#### ソートできる
+```
+{
+  allMarkdownRemark(
+    sort: {
+      fields: [frontmatter___date]
+      order: DESC
+    }
+  ) {
+    totalCount
+    edges {
+      node {
+        frontmatter {
+          title
+          date
+        }
+      }
+    }
+  }
+}
+```
 
