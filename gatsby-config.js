@@ -20,6 +20,7 @@ module.exports = {
         './gatsby-node.ts',
       ],
     },
+    `gatsby-transformer-remark`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
