@@ -1,7 +1,8 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../layouts/index"
-export default function MyFiles({ data }) {
+import { PagesMyfilesQuery } from '../../types/graphql-types';
+export default function MyFiles({ data }: { data: PagesMyfilesQuery }) {
   console.log(data)
   return (
     <Layout>
@@ -32,7 +33,7 @@ export default function MyFiles({ data }) {
   )
 }
 export const query = graphql`
-  query {
+  query PagesMyfiles {
     allFile {
       edges {
         node {

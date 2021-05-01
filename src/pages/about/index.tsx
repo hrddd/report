@@ -3,6 +3,7 @@ import Header from "../../components/header"
 import Container from '../../components/Container';
 import * as styles from "./index.module.css"
 import { graphql } from 'gatsby';
+import { PagesAboutQuery } from '../../../types/graphql-types';
 
 const User = props => (
   <div className={styles.user}>
@@ -14,7 +15,7 @@ const User = props => (
   </div>
 )
 
-export default function About({ data }) {
+export default function About({ data }: { data: PagesAboutQuery }) {
   return (
     <Container>
       <Header headerText="About Gatsby" />
@@ -35,7 +36,7 @@ export default function About({ data }) {
 }
 
 export const query = graphql`
-  query {
+query PagesAbout {
     site {
       siteMetadata {
         title
