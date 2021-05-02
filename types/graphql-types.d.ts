@@ -291,6 +291,11 @@ export type SitePage = Node & {
   parent?: Maybe<Node>;
   children: Array<Node>;
   internal: Internal;
+  context?: Maybe<SitePageContext>;
+};
+
+export type SitePageContext = {
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type MarkdownHeading = {
@@ -324,6 +329,7 @@ export type MarkdownRemark = Node & {
   excerpt?: Maybe<Scalars['String']>;
   rawMarkdownBody?: Maybe<Scalars['String']>;
   fileAbsolutePath?: Maybe<Scalars['String']>;
+  fields?: Maybe<MarkdownRemarkFields>;
   html?: Maybe<Scalars['String']>;
   htmlAst?: Maybe<Scalars['JSON']>;
   excerptAst?: Maybe<Scalars['JSON']>;
@@ -373,6 +379,10 @@ export type MarkdownRemarkFrontmatterDateArgs = {
   fromNow?: Maybe<Scalars['Boolean']>;
   difference?: Maybe<Scalars['String']>;
   locale?: Maybe<Scalars['String']>;
+};
+
+export type MarkdownRemarkFields = {
+  slug?: Maybe<Scalars['String']>;
 };
 
 
@@ -601,6 +611,7 @@ export type QuerySitePageArgs = {
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
   internal?: Maybe<InternalFilterInput>;
+  context?: Maybe<SitePageContextFilterInput>;
 };
 
 
@@ -618,6 +629,7 @@ export type QueryMarkdownRemarkArgs = {
   excerpt?: Maybe<StringQueryOperatorInput>;
   rawMarkdownBody?: Maybe<StringQueryOperatorInput>;
   fileAbsolutePath?: Maybe<StringQueryOperatorInput>;
+  fields?: Maybe<MarkdownRemarkFieldsFilterInput>;
   html?: Maybe<StringQueryOperatorInput>;
   htmlAst?: Maybe<JsonQueryOperatorInput>;
   excerptAst?: Maybe<JsonQueryOperatorInput>;
@@ -732,6 +744,7 @@ export type MarkdownRemarkFilterInput = {
   excerpt?: Maybe<StringQueryOperatorInput>;
   rawMarkdownBody?: Maybe<StringQueryOperatorInput>;
   fileAbsolutePath?: Maybe<StringQueryOperatorInput>;
+  fields?: Maybe<MarkdownRemarkFieldsFilterInput>;
   html?: Maybe<StringQueryOperatorInput>;
   htmlAst?: Maybe<JsonQueryOperatorInput>;
   excerptAst?: Maybe<JsonQueryOperatorInput>;
@@ -747,6 +760,10 @@ export type MarkdownRemarkFilterInput = {
 export type MarkdownRemarkFrontmatterFilterInput = {
   title?: Maybe<StringQueryOperatorInput>;
   date?: Maybe<DateQueryOperatorInput>;
+};
+
+export type MarkdownRemarkFieldsFilterInput = {
+  slug?: Maybe<StringQueryOperatorInput>;
 };
 
 export type JsonQueryOperatorInput = {
@@ -882,6 +899,7 @@ export type FileFieldsEnum =
   | 'childrenMarkdownRemark___excerpt'
   | 'childrenMarkdownRemark___rawMarkdownBody'
   | 'childrenMarkdownRemark___fileAbsolutePath'
+  | 'childrenMarkdownRemark___fields___slug'
   | 'childrenMarkdownRemark___html'
   | 'childrenMarkdownRemark___htmlAst'
   | 'childrenMarkdownRemark___excerptAst'
@@ -937,6 +955,7 @@ export type FileFieldsEnum =
   | 'childMarkdownRemark___excerpt'
   | 'childMarkdownRemark___rawMarkdownBody'
   | 'childMarkdownRemark___fileAbsolutePath'
+  | 'childMarkdownRemark___fields___slug'
   | 'childMarkdownRemark___html'
   | 'childMarkdownRemark___htmlAst'
   | 'childMarkdownRemark___excerptAst'
@@ -1556,6 +1575,10 @@ export type SitePluginPackageJsonPeerDependenciesFilterInput = {
   version?: Maybe<StringQueryOperatorInput>;
 };
 
+export type SitePageContextFilterInput = {
+  slug?: Maybe<StringQueryOperatorInput>;
+};
+
 export type SitePageConnection = {
   totalCount: Scalars['Int'];
   edges: Array<SitePageEdge>;
@@ -1745,7 +1768,8 @@ export type SitePageFieldsEnum =
   | 'internal___ignoreType'
   | 'internal___mediaType'
   | 'internal___owner'
-  | 'internal___type';
+  | 'internal___type'
+  | 'context___slug';
 
 export type SitePageGroupConnection = {
   totalCount: Scalars['Int'];
@@ -1770,6 +1794,7 @@ export type SitePageFilterInput = {
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
   internal?: Maybe<InternalFilterInput>;
+  context?: Maybe<SitePageContextFilterInput>;
 };
 
 export type SitePageSortInput = {
@@ -1811,6 +1836,7 @@ export type MarkdownRemarkFieldsEnum =
   | 'excerpt'
   | 'rawMarkdownBody'
   | 'fileAbsolutePath'
+  | 'fields___slug'
   | 'html'
   | 'htmlAst'
   | 'excerptAst'
@@ -2225,14 +2251,14 @@ export type PagesAboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PagesAboutQuery = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
 
-export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
+export type PagesIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_1_Query = { allMarkdownRemark: (
+export type PagesIndexQuery = { allMarkdownRemark: (
     Pick<MarkdownRemarkConnection, 'totalCount'>
     & { edges: Array<{ node: (
         Pick<MarkdownRemark, 'id' | 'excerpt'>
-        & { frontmatter?: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date'>> }
+        & { frontmatter?: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date'>>, fields?: Maybe<Pick<MarkdownRemarkFields, 'slug'>> }
       ) }> }
   ) };
 
@@ -2240,3 +2266,13 @@ export type PagesMyfilesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PagesMyfilesQuery = { allFile: { edges: Array<{ node: Pick<File, 'relativePath' | 'prettySize' | 'extension' | 'birthTime'> }> } };
+
+export type TemplatesBlogPostQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type TemplatesBlogPostQuery = { markdownRemark?: Maybe<(
+    Pick<MarkdownRemark, 'html'>
+    & { frontmatter?: Maybe<Pick<MarkdownRemarkFrontmatter, 'title'>> }
+  )> };
